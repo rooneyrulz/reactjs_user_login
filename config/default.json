@@ -1,0 +1,4 @@
+{
+  "MONGO_URI": "mongodb://localhost:27017/react_user_login",
+  "JWT_KEY": "react-user-login@jwt.key"
+}
