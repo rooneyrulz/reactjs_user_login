@@ -1,21 +1,21 @@
-import mongoose from 'mongoose';
-import { hash } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
-import config from 'config';
+import mongoose from "mongoose";
+import { hash } from "bcryptjs";
+import { sign } from "jsonwebtoken";
+import config from "config";
 
 // Import Models
-import User from '../models/userSchema';
+import User from "../models/userSchema";
 
 // Import Validations
 import {
   checkForName,
   checkForUsername,
   checkForEmail,
-  checkForPassword,
-} from '../validations/isEmpty';
-import { isPassword } from '../validations/isPassword';
-import { isUsername } from '../validations/isUsername';
-import { isEmail } from '../validations/isEmail';
+  checkForPassword
+} from "../validations/isEmpty";
+import { isPassword } from "../validations/isPassword";
+import { isUsername } from "../validations/isUsername";
+import { isEmail } from "../validations/isEmail";
 
 // @Route            >   GET  /api/users
 // @Description      >   Get All Users
@@ -24,17 +24,17 @@ export const getUsers = async (req, res, next) => {
   try {
     const users = await User.find()
       .sort({ date: -1 })
-      .select(' -password ')
+      .select(" -password ")
       .exec();
 
     if (users.length < 1) {
-      return res.send('No Users Added Yet!');
+      return res.send("No Users Added Yet!");
     }
 
     return res.json({ users });
   } catch (error) {
     console.log(error.message);
-    return res.status(500).send('Server Error!');
+    return res.status(500).send("Server Error!");
   }
 };
 
@@ -46,53 +46,53 @@ export const signUpUser = async (req, res, next) => {
 
   // Check for valid name
   if (!checkForName(name)) {
-    return res.status(409).send('Invalid Name!');
+    return res.status(409).send("Invalid Name!");
   }
 
   // Check for valid username
   if (!checkForUsername(username)) {
-    return res.status(409).send('Invalid Username!');
+    return res.status(409).send("Invalid Username!");
   }
 
   if (!isUsername(username)) {
-    return res.status(409).send('Invalid Username!');
+    return res.status(409).send("Invalid Username!");
   }
 
   // Check for valid email
   if (!checkForEmail(email)) {
-    return res.status(409).send('Invalid Email!');
+    return res.status(409).send("Invalid Email!");
   }
 
   if (!isEmail(email)) {
-    return res.status(409).send('Invalid Email!');
+    return res.status(409).send("Invalid Email!");
   }
 
   // Check for valid password
   if (!checkForPassword(password)) {
-    return res.status(409).send('Invalid Password!');
+    return res.status(409).send("Invalid Password!");
   }
 
   // Check for valid confirm password
   if (!checkForPassword(cPassword)) {
-    return res.status(409).send('Confirm Your Password!');
+    return res.status(409).send("Confirm Your Password!");
   }
 
   // Check for password matching
   if (!isPassword(password, cPassword)) {
-    return res.status(409).send('Password is not match!');
+    return res.status(409).send("Password is not match!");
   }
 
   try {
     const isUserExist = await User.findOne({ username }).exec();
 
     if (isUserExist) {
-      return res.status(409).send('User already exist!');
+      return res.status(409).send("User already exist!");
     }
 
     const isEmailExist = await User.findOne({ email }).exec();
 
     if (isEmailExist) {
-      return res.status(409).send('Email is already in use!');
+      return res.status(409).send("Email is already in use!");
     }
 
     const hashedPwd = await hash(password, 10);
@@ -100,7 +100,7 @@ export const signUpUser = async (req, res, next) => {
     if (!hashedPwd) {
       return res
         .status(500)
-        .send('Something went wrong while hashing the password!');
+        .send("Something went wrong while hashing the password!");
     }
 
     const newUser = User({
@@ -108,22 +108,22 @@ export const signUpUser = async (req, res, next) => {
       name,
       username,
       email,
-      password: hashedPwd,
+      password: hashedPwd
     });
 
     const user = await newUser.save();
 
-    const token = await sign({ id: user._id }, config.get('JWT_KEY'), {
-      expiresIn: 360000,
+    const token = await sign({ id: user._id }, config.get("JWT_KEY"), {
+      expiresIn: 360000
     });
 
     return res.status(201).json({
       token,
-      user,
+      user
     });
   } catch (error) {
     console.log(error.message);
-    return res.status(500).send('Server Error!');
+    return res.status(500).send("Server Error!");
   }
 };
 
@@ -131,10 +131,10 @@ export const signUpUser = async (req, res, next) => {
 // @Description      >   Get User By Id
 // @Access Control   >   Public
 export const getUser = (req, res, next) =>
-  res.status(200).send('Get User By Id!');
+  res.status(200).send("Get User By Id!");
 
 // @Route            >   DELETE  /api/user/:id
 // @Description      >   Delete User
 // @Access Control   >   Private
 export const deleteUser = (req, res, next) =>
-  res.status(200).send('Delete User!');
+  res.status(200).send("Delete User!");
