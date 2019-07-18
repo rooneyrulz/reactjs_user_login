@@ -12,6 +12,23 @@ body {
   overflow-x: hidden;
 }
 
+#Home .jumbotron {
+  background-image: url("./assets/home.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 70vh !important;
+  align-items: center;
+}
+
+.home-heading {
+  text-shadow: 2px 4px 8px #000 !important;
+}
+
+#Dashboard .jumbotron {
+  height: 50vh !important;
+  align-items: center;
+}
+
 #Login, #Signup, #Alert {
   width: 60%;
   margin: auto;
