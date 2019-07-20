@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-// Import Controllers
+//  Import Controllers
 import { authUser, getAuthUser } from "../controllers/auth";
 
 // Import Auth Middleware

@@ -2,7 +2,6 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_SUCCESS,
-  USER_LOADING,
   USER_LOADED,
   LOGIN_FAIL,
   AUTH_ERROR,
@@ -12,7 +11,7 @@ import {
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
-  loading: false,
+  loading: true,
   user: null
 };
 
@@ -20,12 +19,6 @@ export default (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case USER_LOADING:
-      return {
-        ...state,
-        loading: true
-      };
-
     case USER_LOADED:
       return {
         ...state,

@@ -17,7 +17,7 @@ const AppHeader = () => {
   const toggle = () => setState({ ...state, isOpen: !state.isOpen });
 
   return (
-    <Navbar id="Navbar" dark expand="md" color="danger">
+    <Navbar id="Navbar" light expand="md" className="py-4">
       <Container>
         <NavbarBrand href="/home">AUTH PAGE</NavbarBrand>
         <NavbarToggler onClick={() => toggle()}></NavbarToggler>

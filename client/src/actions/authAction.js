@@ -4,7 +4,6 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGIN_SUCCESS,
-  USER_LOADING,
   USER_LOADED,
   LOGIN_FAIL,
   AUTH_ERROR,
@@ -27,9 +26,6 @@ export const loadUser = () => async dispatch => {
       "Content-Type": "application/json"
     }
   };
-
-  // DISPATCH USER LOADING
-  dispatch({ type: USER_LOADING });
 
   try {
     const { data } = await axios.get(`${uri}/api/auth/user`, config);

@@ -12,6 +12,16 @@ body {
   overflow-x: hidden;
 }
 
+#Navbar {
+  color: #111 !important;
+  border-bottom: 1px solid #111;
+}
+
+.navbar-toggler {
+  border: none;
+  outline: none;
+}
+
 #Home .jumbotron {
   background-image: url("./assets/home.jpg");
   background-size: cover;
